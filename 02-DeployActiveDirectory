@@ -1,0 +1,13 @@
+# Deployment of Active Directory
+
+I first installed VirtualBox and downloaded the ISO file for Windows Server 2022 from the Windows website. I checked the hash to verify its integrity.
+
+I was able to install the server without issues.
+
+I then set a static IP address of 192.168.10.1.
+
+I added the Active Directory Domain Services role.
+
+I promoted the server to a domain controller.
+
+I verified that my lab.local domain appeared correctly in Active Directory Users and Computers.
