@@ -1,0 +1,28 @@
+Deployed Windows 10 Client VM
+VM Specs
+
+OS : Windows 10 Pro
+RAM : 4 GB
+CPU : 2 vCPUs
+Disk : 50 GB
+Network : Internal Network (labnet)
+
+IP Configuration
+
+IP address : 192.168.10.100
+Subnet mask : 255.255.255.0
+Default gateway : 192.168.10.254
+DNS : 192.168.10.1
+
+Steps
+
+Created VM in VirtualBox with above specs
+Mounted Windows 10 ISO and completed installation
+Set network adapter to Internal Network (labnet)
+Set static IP address manually
+Confirmed connectivity to pfSense gateway (ping 192.168.10.254)
+Confirmed DNS resolution via Windows Server (ping google.com)
+
+Troubleshooting
+
+No internet initially — fixed by setting default gateway to 192.168.10.254 (pfSense) and DNS to 192.168.10.1 (Windows Server)
