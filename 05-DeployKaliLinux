@@ -1,0 +1,27 @@
+Deployed Kali Linux Attacker VM
+VM Specs
+
+OS : Kali Linux (latest, downloaded from kali.org)
+RAM : 5 GB
+CPU : 2 vCPUs
+Disk : 50 GB
+Network : Internal Network (labnet)
+
+IP Configuration
+
+Assigned automatically via pfSense DHCP
+Subnet : 192.168.10.0/24
+Default gateway : 192.168.10.254 (pfSense)
+DNS : 192.168.10.1 (DC01)
+
+Steps
+
+Downloaded Kali Linux ISO from official site (kali.org)
+Created VM in VirtualBox with above specs
+Set network adapter to Internal Network (labnet)
+Mounted ISO and completed installation
+Set domain name to lab.local during installation
+Confirmed IP assigned automatically by pfSense DHCP
+Confirmed internet connectivity (ping google.com)
+
+No issues encountered during this deployment.
