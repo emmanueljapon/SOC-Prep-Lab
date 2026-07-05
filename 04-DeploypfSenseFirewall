@@ -1,0 +1,34 @@
+Deployed pfSense Firewall/Router
+VM Specs
+
+OS : pfSense CE 2.8.1
+RAM : 1 GB
+CPU : 1 vCPU
+Disk : 20 GB
+Adapter 1 : NAT (WAN)
+Adapter 2 : Internal Network labnet (LAN)
+
+IP Configuration
+
+WAN : 10.0.2.15 (assigned automatically by VirtualBox NAT)
+LAN : 192.168.10.254
+
+Steps
+
+Created VM in VirtualBox with two network adapters (NAT + Internal Network)
+Mounted pfSense CE ISO and completed installation
+Assigned WAN to em0 and LAN to em1 via console menu
+Changed LAN IP from default 192.168.1.1 to 192.168.10.254 via console menu (option 2)
+Configured DHCP server on LAN : range 192.168.10.100 → 192.168.10.199
+Confirmed web interface accessible at 192.168.10.254
+Confirmed internet access from Windows 10 client through pfSense
+
+Troubleshooting
+
+CPU error (long mode) : pfSense VM was set to 32-bit. Fixed by changing VirtualBox VM version to FreeBSD 64-bit in General settings.
+APIC panic error : pfSense crashed with "running without device atpic requires a local APIC". Fixed by enabling I/O APIC in VirtualBox System → Motherboard settings.
+Wrong ISO : Initially downloaded pfSense Plus (Netgate commercial version) instead of pfSense CE. Switched to pfSense Community Edition which is designed for third-party hardware.
+Duplicate VDI conflict : VirtualBox threw an error about duplicate disk UUID after multiple failed attempts. Fixed by removing old disks via File → Virtual Media Manager and creating a fresh VM.
+Wrong subnet : pfSense LAN defaulted to 192.168.1.1 but Windows Server was on 192.168.10.0/24. Changed pfSense LAN IP to 192.168.10.254 via pfSense console menu to match the lab subnet.
+Two network adapters on Windows Server : Windows Server had two adapters — one on 192.168.10.0/24 and one on 192.168.1.0/24 left over from initial setup. Disabled the second adapter in VirtualBox settings.
+DNS not resolving : ping 8.8.8.8 worked but ping google.com failed. Root cause was DNS pointing to Windows Server which was powered off. Internet restored after starting Windows Server.
