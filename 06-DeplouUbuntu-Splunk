@@ -1,0 +1,60 @@
+Deployed Ubuntu Server 22.04 with Splunk Enterprise
+VM Specs
+
+OS : Ubuntu Server 22.04.5 LTS (Jammy Jellyfish)
+RAM : 8 GB
+CPU : 2 vCPUs
+Disk : 150 GB
+Network : Internal Network (labnet)
+
+IP Configuration
+
+Assigned via pfSense DHCP
+Subnet : 192.168.10.0/24
+Gateway : 192.168.10.254 (pfSense)
+
+Steps
+
+Downloaded Ubuntu Server 22.04 ISO from ubuntu.com
+Created VM in VirtualBox with above specs
+Completed Ubuntu installation, skipped all optional snaps
+Connected to Ubuntu via SSH from Windows host :
+
+bashssh emmanuel@192.168.10.xxx
+
+Downloaded Splunk Enterprise .deb package via SSH session
+Installed Splunk :
+
+bashsudo dpkg -i /home/emmanuel/splunk*.deb
+
+Started Splunk and accepted license :
+
+bashsudo /opt/splunk/bin/splunk start --accept-license --run-as-root
+
+Enabled auto-start on boot :
+
+bashsudo /opt/splunk/bin/splunk enable boot-start --run-as-root
+
+Opened required firewall ports :
+
+bashsudo ufw allow 8000/tcp
+sudo ufw allow 9997/tcp
+
+Confirmed Splunk web interface accessible from Windows 11 at http://192.168.10.xxx:8000
+
+Troubleshooting
+
+Copy/paste not working : enabled bidirectional clipboard in VirtualBox settings. Used SSH connection as workaround for terminal copy/paste.
+Splunk start failed : running Splunk as root requires additional flag. Fixed by adding --run-as-root to start command.
+
+Network topology after this entry :
+Internet
+    
+pfSense WAN (10.0.2.15)
+    
+pfSense LAN (192.168.10.254)
+    
+    DC01 Windows Server 2022 (192.168.10.1)
+    Windows 11 Enterprise    (192.168.10.102)
+    Kali Linux               (192.168.10.10x)
+    Ubuntu Server + Splunk   (192.168.10.10x)
