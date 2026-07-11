@@ -1,0 +1,51 @@
+Configured Splunk to Receive Logs & Joined Windows 11 to Active Directory
+
+Active Directory Configuration
+On Windows Server 2022 (DC01) :
+
+Installed Active Directory Certificate Services (AD CS)
+Configured Root CA (Certificate Authority) for the lab.local domain
+Kept all default settings during CA configuration
+
+On Windows 11 :
+
+Attempted domain join with Windows 11 Home — failed, Home edition does not support domain join
+Downloaded Windows 11 Enterprise evaluation ISO from microsoft.com/evalcenter
+Reinstalled VM with Windows 11 Enterprise
+Joined domain lab.local via Settings → Accounts → Access work or school → Join this device to a local Active Directory domain
+Enabled ICMP inbound firewall rule to allow ping from other VMs
+Confirmed domain join successful — Windows 11 visible in AD Users and Computers under Computers container
+
+
+Sysmon Installation
+Installed Sysmon on both Windows Server 2022 and Windows 11 to generate detailed Windows event logs.
+Steps (repeated on both machines) :
+
+Downloaded Sysmon from learn.microsoft.com/sysinternals/downloads/sysmon
+Downloaded SwiftOnSecurity configuration file via PowerShell. Used Claude to generate the exact command
+Installed Sysmon with SwiftOnSecurity config via PowerShell
+Verified Sysmon running via PowerShell
+Verified logs appearing in Event Viewer → Applications and Services Logs → Microsoft → Windows → Sysmon → Operational
+
+
+Splunk Universal Forwarder Installation
+Installed Splunk Universal Forwarder on both Windows Server 2022 and Windows 11 to forward logs to Splunk.
+Steps (repeated on both machines) :
+
+Downloaded Universal Forwarder .msi from splunk.com
+Installed with Receiving Indexer set to Ubuntu Splunk server (port 9997)
+Added forwarding destination, monitor paths and restarted forwarder via PowerShell
+Verified logs flowing into Splunk via Search & Reporting
+
+
+Troubleshooting
+
+Windows 11 Home cannot join domain : reinstalled with Windows 11 Enterprise evaluation ISO
+Ping blocked from Windows Server to Windows 11 : enabled ICMP inbound rule on Windows 11 firewall
+No data in Splunk after forwarder install : forwarding destination was not configured. Fixed by adding Splunk server manually via PowerShell
+Splunk receiving port not configured : added port 9997 via Settings → Forwarding and Receiving → Configure Receiving in Splunk web interface
+Windows 11 host not appearing in Splunk : forwarder had no monitor paths configured. Added Event Log paths manually via PowerShell
+
+
+Verification
+Confirmed both machines sending logs to Splunk. Confirmed Sysmon events visible in Splunk Search & Reporting.
