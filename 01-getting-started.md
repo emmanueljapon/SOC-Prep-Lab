@@ -17,7 +17,6 @@ ComponentSpecCPUAMD Ryzen 7 PRO 6850U (8 cores / 16 threads, up to 4.7GHz)RAM32G
 
 32GB of RAM gives enough headroom to run several VMs concurrently — a Windows Server domain controller, an attacker box, a Windows victim machine, and eventually a SIEM (likely Security Onion), without having to constantly power VMs on and off.
 
-The Plan (Month 1)
 
 The roadmap starts with core Active Directory infrastructure before layering in offensive and defensive tooling:
 
@@ -29,9 +28,7 @@ Get a Windows client VM joined to the domain
 From there, start layering in Kali Linux, pfSense, and Security Onion in later phases
 
 
-Today's Step: Downloading Windows Server
 
-Today I'm downloading the Windows Server 2022 ISO to start building DC01.
 
 
 
