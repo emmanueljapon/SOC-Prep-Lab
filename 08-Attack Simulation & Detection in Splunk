@@ -1,0 +1,31 @@
+Objective:
+Simulate a real attack from Kali Linux against Windows Server and detect it in Splunk using Windows Security logs.
+
+Enabled RDP on Windows Server
+RDP was not enabled by default on Windows Server 2022. Enabled it first.
+
+Simulated Failed Logins from Windows 11
+Before attacking from Kali, tested the detection:
+Connected to Windows Server via Remote Desktop Connection from Windows 11
+Deliberately entered wrong credentials 6 times
+Confirmed EventCode=4625 (failed logon) appeared in Splunk 
+
+This confirmed the full pipeline was working :
+Failed login → Windows Security Log → Universal Forwarder → Splunk
+
+Brute Force Attack from Kali
+Ran a brute force attack against Windows Server RDP from Kali Linux using Hydra and the rockyou.txt wordlist.
+First had to extract the wordlist :
+bashsudo gunzip /usr/share/wordlists/rockyou.txt.gz
+Then launched the attack :
+bashhydra -l Administrator -P /usr/share/wordlists/rockyou.txt rdp://192.168.10.1
+
+Detection in Splunk
+Searched for failed logon events in Splunk :
+index=* sourcetype="WinEventLog:Security" EventCode=4625 (prompt provided by Claude)
+Results showed multiple EventCode=4625 events from the attacker IP (192.168.10.101) hitting DC01 in succession.
+Source_Network_Address : 192.168.10.101 (Kali)
+Account_Name : Administrator (targeted account)
+Failure_Reason : Unknown username or bad password
+
+
